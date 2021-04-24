@@ -27,7 +27,6 @@
 			<plugin>
 				<groupId>biz.aQute.bnd</groupId>
 				<artifactId>bnd-maven-plugin</artifactId>
-				<version>3.5.0</version>
 				<executions>
 					<execution>
 						<id>run-bnd</id>
@@ -65,12 +64,6 @@ Export-Package: com.akhoury.romannumeral.*
 			<plugin>
 				<groupId>org.apache.sling</groupId>
 				<artifactId>maven-sling-plugin</artifactId>
-				<version>2.3.4</version>
-				<configuration>
-					<slingUrl>http://localhost:8080/system/console</slingUrl>
-					<user>admin</user>
-					<password>admin</password>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>

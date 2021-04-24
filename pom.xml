@@ -34,8 +34,8 @@
 				</plugin>
 				<plugin>
 					<groupId>org.apache.sling</groupId>
-					<artifactId>sling-maven-plugin</artifactId>
-					<version>2.4.0</version>
+					<artifactId>maven-sling-plugin</artifactId>
+					<version>2.4.2</version>
 					<configuration>
 						<slingUrl>http://${sling.host}:${sling.port}/system/console</slingUrl>
 						<deploymentMethod>WebConsole</deploymentMethod>
