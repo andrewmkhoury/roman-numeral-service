@@ -18,8 +18,11 @@
  */
 package com.akhoury.romannumeral;
 
+/**
+ * Thrown to indicate that the application has attempted to convert an number that is not an integer in the range 1-3999.
+ */
 public class InputOutOfSupportedRangeException extends Exception {
 	public InputOutOfSupportedRangeException(String inputInt) {
-        super("Input value " + inputInt + " is out of supported range 1-3999");
+        super("Invalid input value " + inputInt + ". Input must be an integer in the range 1-3999");
     }
 }
