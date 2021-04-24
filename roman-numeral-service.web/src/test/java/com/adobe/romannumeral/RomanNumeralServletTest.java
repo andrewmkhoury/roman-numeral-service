@@ -12,13 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 
 public class RomanNumeralServletTest {
-
-	private static final String SERVLET_PATH = "/bin/acs-commons/jcr-compare";
-
-	private static final String SERVLET_SELECTORS = "hashes";
-
-	private static final String SERVLET_EXTENSION = "txt";
-
 	@InjectMocks
 	public RomanNumeralConverterServlet servlet = new RomanNumeralConverterServlet();
 
@@ -31,8 +24,6 @@ public class RomanNumeralServletTest {
 	public void testInvalidRequest() throws Exception {
 		MockSlingHttpServletRequest request = new MockSlingHttpServletRequest(null);
 		MockRequestPathInfo requestPathInfo = (MockRequestPathInfo) request.getRequestPathInfo();
-		requestPathInfo.setSelectorString(SERVLET_SELECTORS);
-		requestPathInfo.setExtension(SERVLET_EXTENSION);
 		request.setMethod("GET");
 		request.setQueryString("query=ab");
 
@@ -47,8 +38,6 @@ public class RomanNumeralServletTest {
 	public void testOutOfRangeRequest() throws Exception {
 		MockSlingHttpServletRequest request = new MockSlingHttpServletRequest(null);
 		MockRequestPathInfo requestPathInfo = (MockRequestPathInfo) request.getRequestPathInfo();
-		requestPathInfo.setSelectorString(SERVLET_SELECTORS);
-		requestPathInfo.setExtension(SERVLET_EXTENSION);
 		request.setMethod("GET");
 		request.setQueryString("query=5000");
 
@@ -63,8 +52,6 @@ public class RomanNumeralServletTest {
 	public void test100() throws Exception {
 		MockSlingHttpServletRequest request = new MockSlingHttpServletRequest(null);
 		MockRequestPathInfo requestPathInfo = (MockRequestPathInfo) request.getRequestPathInfo();
-		requestPathInfo.setSelectorString(SERVLET_SELECTORS);
-		requestPathInfo.setExtension(SERVLET_EXTENSION);
 		request.setMethod("GET");
 		request.setQueryString("query=100");
 
