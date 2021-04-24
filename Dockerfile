@@ -1,4 +1,4 @@
-FROM sling:11
+FROM apache/sling:11
 
 RUN mvn install
 
