@@ -133,7 +133,13 @@
 			<artifactId>org.osgi.service.metatype.annotations</artifactId>
 			<scope>provided</scope>
 		</dependency>
-
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-imaging</artifactId>
+			<version>1.0-alpha2</version>
+			<scope>provided</scope>
+		</dependency>
+		
 		<!-- Monitoring -->
 		<dependency>
 			<artifactId>org.apache.sling.commons.metrics</artifactId>
