@@ -59,4 +59,9 @@ How the project structure was generated:
 	* [core RomanNumeralConverter test case](https://github.com/andrewmkhoury/roman-numeral-service/commit/6a113031e6a0528e4a82ccaa57447aa750e707ee)
 	* [web Servlet cases using mock objects](https://github.com/andrewmkhoury/roman-numeral-service/commit/6a113031e6a0528e4a82ccaa57447aa750e707ee)
 	
-5. 
+5. Created Dockerfile and .dockerignore and ran docker commands:
+	
+	docker build -t roman-numeral-service .
+	docker run -d -p 8080:8080 --name roman-numeral-service roman-numeral-service
+	
+
