@@ -14,13 +14,14 @@ import org.osgi.service.component.annotations.Component;
 import com.akhoury.romannumeral.InputOutOfSupportedRangeException;
 import com.akhoury.romannumeral.RomanNumeralConverter;
 
-
 @Component(service = Servlet.class, property = { Constants.SERVICE_DESCRIPTION + "=Roman Numeral Converter Servlet",
-		"sling.servlet.methods=" + HttpConstants.METHOD_GET,
-		"sling.servlet.paths=" + "/romannumeral"
-		})
+		"sling.servlet.methods=" + HttpConstants.METHOD_GET, "sling.servlet.paths=" + "/romannumeral" })
 public class RomanNumeralConverterServlet extends SlingSafeMethodsServlet {
 
+	private static final String APPLICATION_JSON_CHARSET_UTF_8 = "application/json;charset=UTF-8";
+	private static final String TEXT_PLAIN_CHARSET_UTF_8 = "text/plain;charset=UTF-8";
+	private static final int HTTP_422_STATUS_UNPROCESSABLE_ENTITY = 422;
+	private static final String INVALID_QUERY_PARAM_MESSAGE = "query parameter must be an integer in the range 1-3999.";
 	private static final String PARAM_QUERY = "query";
 
 	/**
@@ -29,13 +30,21 @@ public class RomanNumeralConverterServlet extends SlingSafeMethodsServlet {
 	@Override
 	protected void doGet(SlingHttpServletRequest request, SlingHttpServletResponse response) throws IOException {
 		String queryParam = request.getParameter(PARAM_QUERY);
-		int inputInt = Integer.parseInt(queryParam);
+		int inputInt = -1;
 		try {
-			response.getWriter().write("{\"input\":\"" + inputInt + "\", \"output\":" + RomanNumeralConverter.convertToRomanNumeral(inputInt) + "}");
-		} catch (IOException e) {
-			e.printStackTrace();
+			inputInt = Integer.parseInt(queryParam);
+			//Output JSON on valid requests
+			response.setContentType(APPLICATION_JSON_CHARSET_UTF_8);
+			response.getWriter().write("{\"input\":\"" + inputInt + "\",\"output\":\""
+					+ RomanNumeralConverter.convertToRomanNumeral(inputInt) + "\"}");
+		} catch (NumberFormatException e) {
+			response.setContentType(TEXT_PLAIN_CHARSET_UTF_8);
+			response.setStatus(HTTP_422_STATUS_UNPROCESSABLE_ENTITY);
+			response.getWriter().write(INVALID_QUERY_PARAM_MESSAGE);
 		} catch (InputOutOfSupportedRangeException e) {
-			e.printStackTrace();
+			response.setContentType(TEXT_PLAIN_CHARSET_UTF_8);
+			response.setStatus(HTTP_422_STATUS_UNPROCESSABLE_ENTITY);
+			response.getWriter().write(INVALID_QUERY_PARAM_MESSAGE);
 		} finally {
 			response.flushBuffer();
 		}
