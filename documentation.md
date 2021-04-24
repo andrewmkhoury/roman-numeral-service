@@ -58,6 +58,7 @@ How the project structure was generated:
 4. Implemented JUnit 5 test cases:
 	* [core RomanNumeralConverter test case](https://github.com/andrewmkhoury/roman-numeral-service/commit/6a113031e6a0528e4a82ccaa57447aa750e707ee)
 	* [web Servlet cases using mock objects](https://github.com/andrewmkhoury/roman-numeral-service/commit/6a113031e6a0528e4a82ccaa57447aa750e707ee)
+	* Favored [wcm.io library](https://wcm.io/testing/aem-mock/usage.html) over the [sling testing library](https://github.com/apache/sling-org-apache-sling-commons-testing).  The wcm.io library is far more feature rich especially the [org.apache.sling.commons.testing.sling.MockSlingHttpServletRequest](https://sling.apache.org/apidocs/sling6/org/apache/sling/commons/testing/sling/MockSlingHttpServletRequest.html).
 	
 5. Created Dockerfile and .dockerignore and ran docker commands:
 	
