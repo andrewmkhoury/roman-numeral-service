@@ -64,4 +64,10 @@ How the project structure was generated:
 	docker build -t roman-numeral-service .
 	docker run -d -p 8080:8080 --name roman-numeral-service roman-numeral-service
 	
-
+6. Integrate monitoring using prometheus
+	* https://github.com/prometheus/client_java
+	* https://www.robustperception.io/exposing-dropwizard-metrics-to-prometheus
+	
+	
+# Build Pipeline
+https://codefresh.io/docker-tutorial/java_docker_pipeline/

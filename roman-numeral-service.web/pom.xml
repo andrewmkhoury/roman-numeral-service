@@ -32,6 +32,28 @@
 						<goals>
 							<goal>bnd-process</goal>
 						</goals>
+						<configuration>
+							<bnd><![CDATA[
+							Import-Package: javax.annotation;version=0.0.0,\
+							jdk.internal;resolution:=optional,\
+							org.codehaus.groovy.control.customizers;resolution:=optional,\
+							org.locationtech.jts.geom.*;resolution:=optional,\
+							smile.data.*;resolution:=optional,\
+							sun.misc;resolution:=optional,\
+							sun.nio.ch;resolution:=optional,\
+							com.github.*;resolution:=optional,\
+							com.sun.*;resolution:=optional,\
+							com.google.*;resolution:=optional,\
+							com.googlecode.*;resolution:=optional,\
+							org.osgi.service.jdbc;resolution:=optional,\
+							javax.transaction.xa;resolution:=optional,\
+							com.sun.*;resolution:=optional,\
+							javax.xml.bind;resolution:=optional,\
+							*
+-includeresource: simpleclient*.jar;lib:=true
+-fixupmessages: "Classes found in the wrong directory..."
+                                ]]></bnd>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
@@ -110,6 +132,43 @@
 			<groupId>org.osgi</groupId>
 			<artifactId>org.osgi.service.metatype.annotations</artifactId>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- Monitoring -->
+		<dependency>
+			<artifactId>org.apache.sling.commons.metrics</artifactId>
+			<version>1.2.6</version>
+			<groupId>org.apache.sling</groupId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_dropwizard</artifactId>
+			<version>0.10.0</version>
+		</dependency>
+		<!-- The client -->
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient</artifactId>
+			<version>0.10.0</version>
+		</dependency>
+		<!-- Hotspot JVM metrics -->
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_hotspot</artifactId>
+			<version>0.10.0</version>
+		</dependency>
+		<!-- Exposition HTTPServer -->
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_httpserver</artifactId>
+			<version>0.10.0</version>
+		</dependency>
+		<!-- Pushgateway exposition -->
+		<dependency>
+			<groupId>io.prometheus</groupId>
+			<artifactId>simpleclient_pushgateway</artifactId>
+			<version>0.10.0</version>
 		</dependency>
 
 		<!-- Testing -->
