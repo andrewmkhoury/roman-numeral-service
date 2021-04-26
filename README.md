@@ -54,9 +54,14 @@ test, execute:
 ## How to Deploy
 1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
 2. Either enable single node Kubernetes via Docker Desktop or install minikube https://minikube.sigs.k8s.io/docs/start/
-
-3. Build the project using Maven 3.6.x using JDK 11.
-
+3. Clone the git repository:
+	
+	git clone https://github.com/andrewmkhoury/roman-numeral-service.git
+	
+3. Build the project using Maven 3.6.3 / JDK 11: https://maven.apache.org/install.html
+	* JDK 11: https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+	* Maven: https://maven.apache.org/download.cgi
+	
 4. Build the 3 docker containers:
 
 	docker build -t roman-numeral-service:1.0 .
