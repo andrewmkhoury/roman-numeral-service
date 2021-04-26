@@ -4,6 +4,8 @@ This project implements a simple web service that takes an integer in the range 
 
 The Roman Numeral conversion adheres to the specification on this web site: [https://www.mathsisfun.com/roman-numerals.html](https://www.mathsisfun.com/roman-numerals.html).
 
+For a very detailed explanation of the engineering process involved in this project, see [engineering process documentation](engineering-process.md).
+
 ## Web Service Specification
 The web service HTTP end-point under ``/romannumeral`` accepts a querystring parameter ``query`` with the integer (in range 1-3999) to be converted.
 
