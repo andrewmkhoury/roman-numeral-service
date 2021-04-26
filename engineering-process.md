@@ -98,7 +98,6 @@ I generated the initial project structure using the Sling Maven Archetypes:
 
 # Containerization
 
-
 ## Dockerizing: Apache Sling / Java Application
 
 1. Created [Dockerfile](Dockerfile) and [.dockerignore](.dockerignore) and ran docker commands:
@@ -146,7 +145,9 @@ Create a docker container for Grafana.
 
 	docker stop grafana-roman-services; docker rm grafana-roman-services
 
-4. Download the JSON of this dashboard to [grafana/provisioning/dashboards](grafana/provisioning/dashboards): https://grafana.com/grafana/dashboards/3066
+4. Followed this guide to create [grafana/provisioning](grafana/provisioning) directory structure: https://blog.56k.cloud/provisioning-grafana-datasources-and-dashboards-automagically/
+
+5. Download the JSON of this dashboard to [grafana/provisioning/dashboards](grafana/provisioning/dashboards): https://grafana.com/grafana/dashboards/3066
 
 # Kubernetes
 
