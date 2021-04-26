@@ -29,7 +29,7 @@ Invalid (or out of range) input will receive a 422 (Uprocessable Entity) respons
 The modules of the maven project are:
 
 * [core](roman-numeral-service.core): Java bundle containing the core code which implements the Roman Numeral conversion.
-* [web](roman-numeral-service.web): Servlet implementing the web service.  It also includes an OSGi component that registers the Prometheus `/metrics` servlet.
+* [web](roman-numeral-service.web): Servlet implementing the `/romannumeral` web service.  It also includes an OSGi component that registers the Prometheus `/metrics` servlet.
 
 ## How to Build 
 
