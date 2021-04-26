@@ -26,6 +26,11 @@ Used standard `org.slf4j.Logger` common in Apache Felix and Sling applications.
 
 Note: Since the logging was particularly for test demonstration purposes I made it all trace logging.  In a real world scenario, such a simple application would have minimal logging in the actual Servlet or library code.
 
+## Testing
+Unit tests are implemented for both OSGi bundles and surefire maven plugin is enabled.
+
+Developing integration tests was out of scope as step 3 was open ended.  See [Integration Testing](#integration-testing) below for considerations on how this would have been done.
+
 ## DevOps Features
 
 ### Container Technologies
@@ -96,6 +101,7 @@ I generated the initial project structure using the Sling Maven Archetypes:
 	* [web Servlet cases using mock objects](https://github.com/andrewmkhoury/roman-numeral-service/commit/6a113031e6a0528e4a82ccaa57447aa750e707ee)
 	* Favored [wcm.io library](https://wcm.io/testing/aem-mock/usage.html) over the [sling testing library](https://github.com/apache/sling-org-apache-sling-commons-testing).  The wcm.io library is far more feature rich especially the [org.apache.sling.commons.testing.sling.MockSlingHttpServletRequest](https://sling.apache.org/apidocs/sling6/org/apache/sling/commons/testing/sling/MockSlingHttpServletRequest.html).
 
+
 # Containerization
 
 ## Dockerizing: Apache Sling / Java Application
@@ -159,7 +165,7 @@ Create a docker container for Grafana.
 	kubectl get nodes
 	minikube dashboard #opens kubenetes UI in browser
 	
-2. Create a [yaml file](kube-deployment.yaml) to define a kubernetes deployment.  The file references the 3 docker images and exposes all the ports for Sling (port 8080), Prometheus (9090), and Grafana (3000).
+2. Create a [yaml file](kube-deployment.yaml) to define a kubernetes deployment.  The file references the 3 docker images and exposes all the ports for Sling (port 8080), Prometheus (9090), and Grafana (3000).  It defines to have only one replica in the replica set as this is for testing and development of the monitoring.
 
 3. Apply the yaml to the kubernetes cluster:
 
@@ -187,9 +193,20 @@ I created a development environment demonstrating a full development deploy incl
 
 In a real life production scenario, the prometheus and grafana servers would have their own separate kubernetes deployment.
 
-# Security
 
-## Passwords / Secrets
+# Out of Scope features
+
+### Integration Testing
+I had intended to implement integration tests, but ran out of time as extension 3 of the test is quite open ended.
+
+If I had the time to implement the it.tests, I would have followed the newer Sling Test libraries for JUnit5:
+https://sling.apache.org/documentation/bundles/org-apache-sling-junit-bundles.html
+
+Under the project directory I would have added roman-numeral-service.it.tests/pom.xml and added its module to the parent project [pom.xml](pom.xml#L25).
+
+## Security
+
+### Passwords / Secrets
 Since the time for this test was limited, application security was out of scope.
 
 However, to implement the security:
@@ -219,11 +236,18 @@ However, to implement the security:
 		}
 		events {}
 
-## HTTPS / TLS
+### Security Testing
+#### Docker
+In a normal scenario we would run `docker scan` to scan the container security.
+
+#### Web Security
+For web security we might use something like burpsuite.  For example: https://netsoss.github.io/headless-burp/user-guide/maven-plugin/usage/
+
+### HTTPS / TLS
 Another obvious thing to do would be to enable HTTPS (TLS) for all of the web ports of these applications.  This documented:
 * Sling: Enable SSL at the Sling level (steps documented here for AEM6.1 work for sling http://www.aemcq5tutorials.com/tutorials/enable-https-aem/) and/or enable it at the Load Balancer.
 * Prometheus: https://prometheus.io/docs/guides/tls-encryption/
 * Grafana: https://stackoverflow.com/questions/39956790/grafana-switch-from-http-to-https
 
-## Sample Content and Default Settings
+### Sample Content and Default Settings
 Another consideration is to remove all sample content from Apache Sling and lock down the "Sling Authentication Service" settings.  However, as I stated earlier, in a real world implementation, we would implement such a simple web service with something more lightweight like Jetty or even just an Azure Function.
