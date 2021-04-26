@@ -69,9 +69,13 @@ test, execute:
 	
 6. Now you have 3 servers running and exposed on your machine:
 	1. Apache Sling (Web): http://localhost:8080
+		* Roman Numeral Web Service: [http://localhost:8080/romannumeral?query=1](http://localhost:8080/romannumeral?query=1)
+		* Prometheus Metrics endpoint: [http://localhost:8080/romannumeral?query=1](http://localhost:8080/metrics)
 	2. Prometheus (Monitoring): http://localhost:9090
+		* [http://localhost:9090](http://localhost:9090)
 	3. Grafana (Observability): http://localhost:3000
-
-NOTE: The Apache Sling container can take up to 1 minute to start completely.
+		* User / password is admin / admin (default)
+		
+	NOTE: The Apache Sling container can take up to 2 minutes to start completely before the /romannumeral web service is accessible.
 
 7. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
