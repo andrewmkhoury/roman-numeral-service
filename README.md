@@ -1,13 +1,33 @@
 # Roman Numeral Service
 
-The Roman Numeral Service is a web service that takes a positive integer in the range 1-3999 and converts it to Roman Numeral.
+This project implements a simple web service that takes an integer in the range 1-3999 and converts it to a Roman Numeral string.
+
+The Roman Numeral conversion adheres to the specification on this web site: [https://www.mathsisfun.com/roman-numerals.html](https://www.mathsisfun.com/roman-numerals.html).
+
+## Web Service Specification
+The web service HTTP end-point under ``/romannumeral`` accepts a querystring parameter ``query`` with the integer (in range 1-3999) to be converted.
+
+	http://localhost:8080/romannumeral?query={integer}
+
+``{integer}`` must be any integer value in the range 1-3999.
+
+Properly formed requests with ``{integer}`` in the correct range will receive an HTTP 200 (OK) response with JSON containing the result.
+
+For example, this request ``http://localhost:8080/romannumeral?query=1`` would result in this output:
+	
+	{"input":"1","output":"I"}
+
+Invalid (or out of range) input will receive a 422 (Uprocessable Entity) response with:
+
+	"query" parameter must be an integer in the range 1-3999.
+
 
 ## Modules
 
-The main parts of the template are:
+The modules of the maven project are:
 
-* core: Java bundle containing all core functionality like OSGi services, listeners or schedulers, as well as component-related Java code such as servlets or request filters.
-* web: Java based integration tests
+* core: Java bundle containing the core code which implements the Roman Numeral conversion.
+* web: Servlet implementing the web service.
 * it.tests: Java based integration tests
 
 ## How to build
@@ -39,7 +59,7 @@ HTTP calls to its API. To run the integration tests, run:
     mvn clean verify -Plocal
 
 Test classes must be saved in the `src/main/java` directory (or any of its
-subdirectories), and must be contained in files matching the pattern `*IT.java`.
+sub-directories), and must be contained in files matching the pattern `*IT.java`.
 
 The configuration provides sensible defaults for a typical local installation of
 AEM. If you want to point the integration tests to different AEM author and
