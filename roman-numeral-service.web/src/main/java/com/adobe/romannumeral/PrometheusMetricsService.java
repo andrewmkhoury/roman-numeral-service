@@ -19,15 +19,14 @@
 package com.adobe.romannumeral;
 
 import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
 
 import javax.servlet.ServletException;
 
 import org.apache.sling.commons.metrics.MetricsService;
 import org.osgi.framework.BundleContext;
-import org.osgi.service.component.ComponentContext;
+import org.osgi.service.component.annotations.Activate;
 import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.Deactivate;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ReferenceCardinality;
 import org.osgi.service.component.annotations.ReferencePolicy;
@@ -35,7 +34,6 @@ import org.osgi.service.http.HttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
 
 import io.prometheus.client.CollectorRegistry;
@@ -50,13 +48,12 @@ import io.prometheus.client.hotspot.DefaultExports;
  *      "https://sling.apache.org/documentation/bundles/scheduler-service-commons-scheduler.html">Scheduler
  *      Service</a>
  */
-@Component(property = { "scheduler.period:Long=30" })
-public class SimpleDSComponent implements Runnable {
-
+@Component
+public class PrometheusMetricsService {
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
-	private BundleContext bundleContext;
-
+	private static final String URI_ALIAS = "/metrics";
+	
 	@Reference
 	private HttpService httpService;
 
@@ -70,46 +67,28 @@ public class SimpleDSComponent implements Runnable {
 		log.info("Running...");
 	}
 
-	protected void activate(ComponentContext ctx) {
-		this.bundleContext = ctx.getBundleContext();
-		// Inside an initialisation function.
-		CollectorRegistry.defaultRegistry.register(new DropwizardExports(getConsolidatedRegistry()));
-
+	@Activate
+	protected void activate(BundleContext context) {
+		registerAll(CollectorRegistry.defaultRegistry);
 		DefaultExports.initialize();
 		
 		try {
-			httpService.registerServlet("/metrics", new MetricsServlet(), null, httpService.createDefaultHttpContext());
+			httpService.registerServlet(URI_ALIAS, new MetricsServlet(), null, httpService.createDefaultHttpContext());
 		} catch (ServletException e) {
-			e.printStackTrace();
+			log.error("Unable to register " + URI_ALIAS + " servlet for Prometheus monitoring", e);
 		} catch (org.osgi.service.http.NamespaceException e) {
-			e.printStackTrace();
+			log.error("Unable to register " + URI_ALIAS + " servlet for Prometheus monitoring", e);
 		}
 	}
 
-	protected void deactivate(ComponentContext ctx) {
-		this.bundleContext = null;
+	@Deactivate
+	protected void deactivate(BundleContext context) {
+		httpService.unregister(URI_ALIAS);
 	}
 
-	public static final String METRIC_REGISTRY_NAME = "name";
-	MetricRegistry getConsolidatedRegistry() {
-		MetricRegistry registry = new MetricRegistry();
+	private void registerAll(CollectorRegistry collector) {
 		for (MetricRegistry registryEntry : metricRegistries) {
-			SortedSet<String> metricRegistryNames = registryEntry.getNames();
-			if(metricRegistryNames != null && !metricRegistryNames.isEmpty()) {
-				String metricRegistryName = metricRegistryNames.first();
-				for (Map.Entry<String, Metric> metricEntry : registryEntry.getMetrics().entrySet()) {
-					String metricName = metricEntry.getKey();
-					try {
-						if (metricRegistryName != null) {
-							metricName = metricRegistryName + ":" + metricName;
-						}
-						registry.register(metricName, metricEntry.getValue());
-					} catch (IllegalArgumentException ex) {
-						log.warn("Duplicate Metric name found {}", metricName, ex);
-					}
-				}
-			}
+			collector.register(new DropwizardExports(registryEntry));
 		}
-		return registry;
 	}
 }
