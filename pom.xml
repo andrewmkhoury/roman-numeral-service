@@ -108,19 +108,19 @@
 					<target>1.8</target>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>com.github.jinnovations</groupId>
-				<artifactId>attribution-maven-plugin</artifactId>
-				<version>0.9.8</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate-attribution-file</goal>
-						</goals>
-						<phase>generate-resources</phase>
-					</execution>
-				</executions>
-			</plugin>
+				<plugin>
+					<groupId>com.github.jinnovations</groupId>
+					<artifactId>attribution-maven-plugin</artifactId>
+					<version>0.9.8</version>
+					<executions>
+						<execution>
+							<goals>
+								<goal>generate-attribution-file</goal>
+							</goals>
+							<phase>attribution</phase>
+						</execution>
+					</executions>
+				</plugin>
 		</plugins>
 		<pluginManagement>
 			<plugins>

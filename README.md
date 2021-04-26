@@ -38,26 +38,11 @@ To build all the modules run in the project root directory the following command
 
     mvn clean install
 
-To deploy the bundles to a sling instance on http://localhost:8080, run this command:
+If you want to deploy the bundles to an already running sling instance on http://localhost:8080, run this command:
 
     mvn clean install sling:install
 
-## Testing
-
-There are two levels of testing contained in the project:
-
-### Unit tests
-
-This show-cases classic unit testing of the code contained in the bundle. To
-test, execute:
-
-    mvn clean test
-
-### Java CI: Github Action
-A GitHub Action is enabled to run the build / tests on-commit to git:
-[.github/workflows/maven.yml](https://github.com/andrewmkhoury/roman-numeral-service/blob/master/.github/workflows/maven.yml)
-
-## How to Deploy
+## How to Deploy via Kubernetes
 1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
 2. Either enable single node Kubernetes via Docker Desktop or install minikube https://minikube.sigs.k8s.io/docs/start/
 3. Clone the git repository:
@@ -90,3 +75,29 @@ A GitHub Action is enabled to run the build / tests on-commit to git:
 	NOTE: The Apache Sling container can take up to 2 minutes to start completely before the /romannumeral web service is accessible.
 
 7. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
+
+
+## Testing
+
+There are two levels of testing contained in the project:
+
+### Unit tests
+
+This show-cases classic unit testing of the code contained in the bundle. To
+test, execute:
+
+    mvn clean test
+
+### Java CI: Github Action
+A GitHub Action is enabled to run the build / tests on-commit to git:
+[.github/workflows/maven.yml](https://github.com/andrewmkhoury/roman-numeral-service/blob/master/.github/workflows/maven.yml)
+
+
+## Dependency Attribution
+To generate detailed information about all dependencies run this maven command:
+	
+	mvn attribution:generate-attribution-file
+
+It generates a `attribution.xml` under each project's target directory for the maven dependencies.
+
+This feature uses the attribution-maven-plugin: https://github.com/jinnovations/attribution-maven-plugin.
