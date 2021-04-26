@@ -37,18 +37,22 @@ To build all the modules run in the project root directory the following command
 
     mvn clean install
 
-If you want to deploy the bundles to an already running sling instance on http://localhost:8080, run this command:
+NOTE: The web framework used by this project is Apache Sling.  This was mainly to demonstrate my working knowledge of how to develop with it.  See [here for more information on this decision](engineering-process.md#web-framework).
+
+To deploy the bundles to an already running sling instance on http://localhost:8080, run this command:
 
     mvn clean install sling:install
     
 ## How to Build and Deploy (via Kubernetes)
+The application and its monitoring and observability services (Prometheus & Grafana) can be deployed to a Kubernetes cluster.  Follow the steps below to build and deploy to Kubernetes.
+
 1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
-2. Either enable single node Kubernetes via Docker Desktop or install minikube https://minikube.sigs.k8s.io/docs/start/
-3. Clone the git repository:
+2. Either enable single node Kubernetes via Docker Desktop (Settings UI) or install minikube https://minikube.sigs.k8s.io/docs/start/
+3. Clone this git repository:
 	
 	git clone https://github.com/andrewmkhoury/roman-numeral-service.git
 	
-3. Build the project using Maven 3.6.3 / JDK 11: https://maven.apache.org/install.html
+3. Download and install Maven 3.6.3 / JDK 11: https://maven.apache.org/install.html
 	* JDK 11: https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 	* Maven: https://maven.apache.org/download.cgi
 
