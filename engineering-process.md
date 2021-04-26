@@ -10,7 +10,7 @@ Due to the selection of Java as the language, the logical choice for build manag
 ## Roman Numeral Converter
 1. Studied Roman Numerals [https://www.mathsisfun.com/roman-numerals.html](https://www.mathsisfun.com/roman-numerals.html)
 2. Created a simple java program that implements the Roman Numeral conversion.
-   * Due to the small numerical range of 1-3999, most efficient solution would be to generate a static array containing all predefined String values of all Roman Numerals in the range 1-3999.  However, I understand that wasn't the purpose of the test.
+   * Due to the small numerical range of 1-3999, the most efficient solution would be to generate a static array containing all predefined String values of all Roman Numerals in the range 1-3999.  However, I understand that wasn't the purpose of the test, so I instead implemented an algorithm that generates the Roman Numerals dynamically.
    * Implemented as a static method as it needn't maintain any object state.  Testing is easier and cleaner in this case with a simple static method implementation.  This is similar to the [java.lang.Math](https://docs.oracle.com/javase/8/docs/api/java/lang/Math.html) libraries.
    * For the sake of maintainability and readability, I copy the unique Roman Numeral values from an enum to a LIFO queue.
    * For the converter, a two array implementation (int array and String array) would have slightly better performance and use less memory, however the code is more maintainable using collections.
