@@ -49,28 +49,27 @@ The application and its monitoring and observability services (Prometheus & Graf
 1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
 2. Either enable single node Kubernetes via Docker Desktop (Settings UI) or install minikube https://minikube.sigs.k8s.io/docs/start/
 3. Clone this git repository:
+git clone https://github.com/andrewmkhoury/roman-numeral-service.git
 	
-	git clone https://github.com/andrewmkhoury/roman-numeral-service.git
-	
-3. Download and install Maven 3.6.3 / JDK 11: https://maven.apache.org/install.html
+4. Download and install Maven 3.6.3 / JDK 11: https://maven.apache.org/install.html
 	* JDK 11: https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 	* Maven: https://maven.apache.org/download.cgi
 
-4. Run the maven command from the root of the project directory to build all modules:
+5. Run the maven command from the root of the project directory to build all modules:
 	
-	mvn clean install
+		mvn clean install
 	
-5. Build the 3 docker containers:
+6. Build the 3 docker containers:
 
-	docker build -t roman-numeral-service:1.0 .
-	docker build -t prometheus-roman-services:1.0 ./prometheus
-	docker build -t grafana-roman-services:1.0 ./grafana
+		docker build -t roman-numeral-service:1.0 .
+		docker build -t prometheus-roman-services:1.0 ./prometheus
+		docker build -t grafana-roman-services:1.0 ./grafana
 	
-6. Deploy the Docker images via Kubernetes:
+7. Deploy the Docker images via Kubernetes:
 
-	kubectl apply -f kube-deployment.yaml
+		kubectl apply -f kube-deployment.yaml
 	
-7. Now you have 3 servers running and exposed on your machine:
+8. Now you have 3 servers running and exposed on your machine:
 	1. Apache Sling (Web): http://localhost:8080
 		* Roman Numeral Web Service: [http://localhost:8080/romannumeral?query=1](http://localhost:8080/romannumeral?query=1)
 		* Prometheus Metrics endpoint: [http://localhost:8080/metrics](http://localhost:8080/metrics)
@@ -81,7 +80,7 @@ The application and its monitoring and observability services (Prometheus & Graf
 		
 	NOTE: The Apache Sling container can take up to 2 minutes to start completely before the /romannumeral web service is accessible.
 
-8. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
+9. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
 
 
 ## Testing
