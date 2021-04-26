@@ -69,7 +69,7 @@ If you want to deploy the bundles to an already running sling instance on http:/
 7. Now you have 3 servers running and exposed on your machine:
 	1. Apache Sling (Web): http://localhost:8080
 		* Roman Numeral Web Service: [http://localhost:8080/romannumeral?query=1](http://localhost:8080/romannumeral?query=1)
-		* Prometheus Metrics endpoint: [http://localhost:8080/romannumeral?query=1](http://localhost:8080/metrics)
+		* Prometheus Metrics endpoint: [http://localhost:8080/metrics](http://localhost:8080/metrics)
 	2. Prometheus (Monitoring): http://localhost:9090
 		* [http://localhost:9090](http://localhost:9090)
 	3. Grafana (Observability): http://localhost:3000
