@@ -36,7 +36,7 @@ To build all the modules run in the project root directory the following command
 
     mvn clean install
 
-To deploy the bundles run this command:
+To deploy the bundles to a sling instance on http://localhost:8080, run this command:
 
     mvn clean install sling:install
 
@@ -51,30 +51,27 @@ test, execute:
 
     mvn clean test
 
-### Integration tests
+## How to Deploy
+1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
+2. Either enable single node Kubernetes via Docker Desktop or install minikube https://minikube.sigs.k8s.io/docs/start/
 
-This allows running integration tests that exercise the capabilities of Sling via
-HTTP calls to its API. To run the integration tests, run:
+3. Build the project using Maven 3.6.x using JDK 11.
 
-    mvn clean verify -Plocal
+4. Build the 3 docker containers:
 
-Test classes must be saved in the `src/main/java` directory (or any of its
-sub-directories), and must be contained in files matching the pattern `*IT.java`.
+	docker build -t roman-numeral-service:1.0 .
+	docker build -t prometheus-roman-services:1.0 ./prometheus
+	docker build -t grafana-roman-services:1.0 ./grafana
+	
+5. Deploy the Docker images via Kubernetes:
 
-The configuration provides sensible defaults for a typical local installation of
-AEM. If you want to point the integration tests to different AEM author and
-publish instances, you can use the following system properties via Maven's `-D`
-flag.
+	kubectl apply -f kube-deployment.yaml
+	
+6. Now you have 3 servers running and exposed on your machine:
+	1. Apache Sling (Web): http://localhost:8080
+	2. Prometheus (Monitoring): http://localhost:9090
+	3. Grafana (Observability): http://localhost:3000
 
-| Property | Description | Default value |
-| --- | --- | --- |
-| `it.sling.url` | URL of the sling instance | `http://localhost:8080` |
-| `it.sling.user` | Admin user for the sling instance | `admin` |
-| `it.sling.password` | Password of the admin user for the sling instance | `admin` |
+NOTE: The Apache Sling container can take up to 1 minute to start completely.
 
-The integration tests in this archetype use the [AEM Testing
-Clients](https://github.com/adobe/aem-testing-clients) and showcase some
-recommended [best
-practices](https://github.com/adobe/aem-testing-clients/wiki/Best-practices) to
-be put in use when writing integration tests for AEM.
-
+7. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
