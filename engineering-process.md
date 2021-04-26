@@ -31,6 +31,12 @@ Unit tests are implemented for both OSGi bundles and surefire maven plugin is en
 
 Developing integration tests was out of scope as step 3 was open ended.  See [Integration Testing](#integration-testing) below for considerations on how this would have been done.
 
+## Continuous Integration: Github Action
+A GitHub Action is enabled to run the build / tests on-commit to git:
+[.github/workflows/maven.yml](https://github.com/andrewmkhoury/roman-numeral-service/blob/master/.github/workflows/maven.yml)
+
+See here [https://github.com/andrewmkhoury/roman-numeral-service/actions](https://github.com/andrewmkhoury/roman-numeral-service/actions)
+
 ## DevOps Features
 
 ### Container Technologies

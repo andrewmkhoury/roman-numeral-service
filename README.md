@@ -51,6 +51,10 @@ test, execute:
 
     mvn clean test
 
+### Java CI: Github Action
+A GitHub Action is enabled to run the build / tests on-commit to git:
+[.github/workflows/maven.yml](https://github.com/andrewmkhoury/roman-numeral-service/blob/master/.github/workflows/maven.yml)
+
 ## How to Deploy
 1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
 2. Either enable single node Kubernetes via Docker Desktop or install minikube https://minikube.sigs.k8s.io/docs/start/
