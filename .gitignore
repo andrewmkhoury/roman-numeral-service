@@ -98,3 +98,6 @@ node/
 # Tests
 coverage/
 reports/
+
+# Mac OS
+.DS_Store
