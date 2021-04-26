@@ -30,9 +30,8 @@ The modules of the maven project are:
 
 * core: Java bundle containing the core code which implements the Roman Numeral conversion.
 * web: Servlet implementing the web service.
-* it.tests: Java based integration tests
 
-## How to build
+## How to Build 
 
 To build all the modules run in the project root directory the following command with Maven 3:
 
@@ -41,8 +40,8 @@ To build all the modules run in the project root directory the following command
 If you want to deploy the bundles to an already running sling instance on http://localhost:8080, run this command:
 
     mvn clean install sling:install
-
-## How to Deploy via Kubernetes
+    
+## How to Build and Deploy (via Kubernetes)
 1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
 2. Either enable single node Kubernetes via Docker Desktop or install minikube https://minikube.sigs.k8s.io/docs/start/
 3. Clone the git repository:
@@ -52,18 +51,22 @@ If you want to deploy the bundles to an already running sling instance on http:/
 3. Build the project using Maven 3.6.3 / JDK 11: https://maven.apache.org/install.html
 	* JDK 11: https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 	* Maven: https://maven.apache.org/download.cgi
+
+4. Run the maven command from the root of the project directory to build all modules:
 	
-4. Build the 3 docker containers:
+	mvn clean install
+	
+5. Build the 3 docker containers:
 
 	docker build -t roman-numeral-service:1.0 .
 	docker build -t prometheus-roman-services:1.0 ./prometheus
 	docker build -t grafana-roman-services:1.0 ./grafana
 	
-5. Deploy the Docker images via Kubernetes:
+6. Deploy the Docker images via Kubernetes:
 
 	kubectl apply -f kube-deployment.yaml
 	
-6. Now you have 3 servers running and exposed on your machine:
+7. Now you have 3 servers running and exposed on your machine:
 	1. Apache Sling (Web): http://localhost:8080
 		* Roman Numeral Web Service: [http://localhost:8080/romannumeral?query=1](http://localhost:8080/romannumeral?query=1)
 		* Prometheus Metrics endpoint: [http://localhost:8080/romannumeral?query=1](http://localhost:8080/metrics)
@@ -74,7 +77,7 @@ If you want to deploy the bundles to an already running sling instance on http:/
 		
 	NOTE: The Apache Sling container can take up to 2 minutes to start completely before the /romannumeral web service is accessible.
 
-7. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
+8. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
 
 
 ## Testing
