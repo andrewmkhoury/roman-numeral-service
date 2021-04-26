@@ -39,7 +39,7 @@ public class RomanNumeralConverterServlet extends SlingSafeMethodsServlet {
 	private static final String APPLICATION_JSON_CHARSET_UTF_8 = "application/json;charset=UTF-8";
 	private static final String TEXT_PLAIN_CHARSET_UTF_8 = "text/plain;charset=UTF-8";
 	private static final int HTTP_422_STATUS_UNPROCESSABLE_ENTITY = 422;
-	private static final String INVALID_QUERY_PARAM_MESSAGE = "query parameter must be an integer in the range 1-3999.";
+	private static final String INVALID_QUERY_PARAM_MESSAGE = "\"query\" parameter must be an integer in the range 1-3999.";
 	private static final String PARAM_QUERY = "query";
 
 	/**
@@ -51,7 +51,7 @@ public class RomanNumeralConverterServlet extends SlingSafeMethodsServlet {
 		int inputInt = -1;
 		try {
 			inputInt = Integer.parseInt(queryParam);
-			//Output JSON on valid requests
+			// Output JSON on valid requests
 			response.setContentType(APPLICATION_JSON_CHARSET_UTF_8);
 			response.getWriter().write("{\"input\":\"" + inputInt + "\",\"output\":\""
 					+ RomanNumeralConverter.convertToRomanNumeral(inputInt) + "\"}");

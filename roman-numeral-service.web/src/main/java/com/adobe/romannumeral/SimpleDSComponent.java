@@ -18,16 +18,20 @@
  */
 package com.adobe.romannumeral;
 
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.SortedSet;
+
+import javax.servlet.ServletException;
 
 import org.apache.sling.commons.metrics.MetricsService;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.service.component.ComponentContext;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
+import org.osgi.service.component.annotations.ReferenceCardinality;
+import org.osgi.service.component.annotations.ReferencePolicy;
+import org.osgi.service.http.HttpService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +40,8 @@ import com.codahale.metrics.MetricRegistry;
 
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.dropwizard.DropwizardExports;
+import io.prometheus.client.exporter.MetricsServlet;
+import io.prometheus.client.hotspot.DefaultExports;
 
 /**
  * A simple DS component which is executed every 10 seconds
@@ -44,13 +50,19 @@ import io.prometheus.client.dropwizard.DropwizardExports;
  *      "https://sling.apache.org/documentation/bundles/scheduler-service-commons-scheduler.html">Scheduler
  *      Service</a>
  */
-@Component(property = { "scheduler.period:Long=10" })
+@Component(property = { "scheduler.period:Long=30" })
 public class SimpleDSComponent implements Runnable {
 
 	private Logger log = LoggerFactory.getLogger(this.getClass());
 
 	private BundleContext bundleContext;
 
+	@Reference
+	private HttpService httpService;
+
+	@Reference(cardinality = ReferenceCardinality.MULTIPLE, policy = ReferencePolicy.DYNAMIC)
+	private volatile List<MetricRegistry> metricRegistries;
+	
 	@Reference
 	private MetricsService metricsService;
 
@@ -60,9 +72,18 @@ public class SimpleDSComponent implements Runnable {
 
 	protected void activate(ComponentContext ctx) {
 		this.bundleContext = ctx.getBundleContext();
-
 		// Inside an initialisation function.
 		CollectorRegistry.defaultRegistry.register(new DropwizardExports(getConsolidatedRegistry()));
+
+		DefaultExports.initialize();
+		
+		try {
+			httpService.registerServlet("/metrics", new MetricsServlet(), null, httpService.createDefaultHttpContext());
+		} catch (ServletException e) {
+			e.printStackTrace();
+		} catch (org.osgi.service.http.NamespaceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	protected void deactivate(ComponentContext ctx) {
@@ -70,21 +91,22 @@ public class SimpleDSComponent implements Runnable {
 	}
 
 	public static final String METRIC_REGISTRY_NAME = "name";
-	private ConcurrentMap<ServiceReference, MetricRegistry> registries = new ConcurrentHashMap<>();
-
 	MetricRegistry getConsolidatedRegistry() {
 		MetricRegistry registry = new MetricRegistry();
-		for (Map.Entry<ServiceReference, MetricRegistry> registryEntry : registries.entrySet()) {
-			String metricRegistryName = (String) registryEntry.getKey().getProperty(METRIC_REGISTRY_NAME);
-			for (Map.Entry<String, Metric> metricEntry : registryEntry.getValue().getMetrics().entrySet()) {
-				String metricName = metricEntry.getKey();
-				try {
-					if (metricRegistryName != null) {
-						metricName = metricRegistryName + ":" + metricName;
+		for (MetricRegistry registryEntry : metricRegistries) {
+			SortedSet<String> metricRegistryNames = registryEntry.getNames();
+			if(metricRegistryNames != null && !metricRegistryNames.isEmpty()) {
+				String metricRegistryName = metricRegistryNames.first();
+				for (Map.Entry<String, Metric> metricEntry : registryEntry.getMetrics().entrySet()) {
+					String metricName = metricEntry.getKey();
+					try {
+						if (metricRegistryName != null) {
+							metricName = metricRegistryName + ":" + metricName;
+						}
+						registry.register(metricName, metricEntry.getValue());
+					} catch (IllegalArgumentException ex) {
+						log.warn("Duplicate Metric name found {}", metricName, ex);
 					}
-					registry.register(metricName, metricEntry.getValue());
-				} catch (IllegalArgumentException ex) {
-					log.warn("Duplicate Metric name found {}", metricName, ex);
 				}
 			}
 		}
