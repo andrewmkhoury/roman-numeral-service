@@ -97,6 +97,7 @@ git clone https://github.com/andrewmkhoury/roman-numeral-service.git
 		* [http://localhost:9090](http://localhost:9090)
 	3. Grafana (Observability): http://localhost:3000
 		* User / password is admin / admin (default)
+		* Seee the dashboards here: http://localhost:3000/dashboards - there is a JVM monitoring dashboard
 		
 	NOTE: The Apache Sling container can take up to 2 minutes to start completely before the /romannumeral web service is accessible.
 
