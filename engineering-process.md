@@ -5,9 +5,9 @@ This document lays out the engineering process behind the implementation of the 
 This section explains the rationale behind my decision making on the implementation, project structure and technologies selected.
 
 ## Build
-Due to the selection of Java as the language, the logical choice for build management is Apache Maven.
+Due to the selection of Java as the language, the logical choice for build management was Apache Maven.
 
-## Roman Numeral Converter
+## Roman Numeral Converter Algorithm
 1. Studied Roman Numerals [https://www.mathsisfun.com/roman-numerals.html](https://www.mathsisfun.com/roman-numerals.html)
 2. Created a simple java program that implements the Roman Numeral conversion.
    * Due to the small numerical range of 1-3999, the most efficient solution would be to generate a static array containing all predefined String values of all Roman Numerals in the range 1-3999.  However, I understand that wasn't the purpose of the test, so I instead implemented an algorithm that generates the Roman Numerals dynamically.
@@ -22,7 +22,12 @@ I chose Apache Sling as the web framework for the application to demonstrate my 
 *NOTE:* If I were to implement such a simple web service in a real world scenario, I would use something more lightweight like Jetty servlet engine or using a simple Azure Function https://docs.microsoft.com/en-us/azure/azure-functions/functions-create-serverless-api.  The decision of which technology to choose would depend on the technology ecosystem surrounding it.
 
 ## Logging
-Used standard `org.slf4j.Logger` common in Apache Felix and Sling applications.
+Used standard `org.slf4j.Logger` common in Apache Felix and Sling applications.  The log output goes to `/opt/sling/sling/logs/error.log` on the docker container.
+
+Apache Sling has its own built in log files:
+1. `request.log` - request response time logging
+2. `access.log` - similar to Apache HTTP Server's access_log
+3. `error.log` - logging info messages and exceptions.
 
 Note: Since the logging was particularly for test demonstration purposes I made it all trace logging.  In a real world scenario, such a simple application would have minimal logging in the actual Servlet or library code.
 
