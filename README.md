@@ -39,11 +39,26 @@ To build all the modules run in the project root directory the following command
 
 NOTE: The web framework used by this project is Apache Sling.  This was mainly to demonstrate my working knowledge of how to develop with it.  See [here for more information on this decision](engineering-process.md#web-framework).
 
+### Installing Apache Sling Locally
+
+1. Download and install Java 11 (OpenJDK or Oracle JDK)
+2. Download the Apache Sling standalone jar file:
+
+       wget https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.starter/11/org.apache.sling.starter-11.jar
+
+3. Start and install Apache Sling:
+       
+       java -Xmx512m -jar org.apache.sling.starter-11.jar
+       
+4. Open the installed server in your browser [http://localhost:8080](http://localhost:8080)
+
+### Deploy the Application to Apache Sling
+
 To deploy the bundles to an already running sling instance on http://localhost:8080, run this command:
 
     mvn clean install sling:install
     
-## How to Build and Deploy (via Kubernetes)
+## Build and Deploy on Docker / Kubernetes
 The application and its monitoring and observability services (Prometheus & Grafana) can be deployed to a Kubernetes cluster.  Follow the steps below to build and deploy to Kubernetes.
 
 1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
