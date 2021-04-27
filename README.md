@@ -31,18 +31,20 @@ The modules of the maven project are:
 * [core](roman-numeral-service.core): Java bundle containing the core code which implements the Roman Numeral conversion.
 * [web](roman-numeral-service.web): Servlet implementing the `/romannumeral` web service.  It also includes an OSGi component that registers the Prometheus `/metrics` servlet.
 
-## How to Build 
+## Build the Code
+1. Install Java 11 (Open JDK/JRE or Oracle JDK/JRE): https://openjdk.java.net/install/
+2. Download and install Maven 3.6.3 (if not preinstalled): https://downloads.apache.org/maven/maven-3/3.6.3/binaries/
+   * Installation instructions can be found here: https://maven.apache.org/install.html
+4. To build all the modules, run this command in the project root directory (with Maven 3.6.3):
 
-To build all the modules run in the project root directory the following command with Maven 3:
-
-    mvn clean install
+       mvn clean install
 
 NOTE: The web framework used by this project is Apache Sling.  This was mainly to demonstrate my working knowledge of how to develop with it.  See [here for more information on this decision](engineering-process.md#web-framework).
 
 ### Installing Apache Sling Locally
 
-1. Download and install Java 11 (OpenJDK or Oracle JDK)
-2. Download the Apache Sling standalone jar file:
+1. Download and install Java 11 (OpenJDK or Oracle JDK): https://openjdk.java.net/install/
+2. Download the Apache Sling standalone jar file to a new directory:
 
        wget https://repo1.maven.org/maven2/org/apache/sling/org.apache.sling.starter/11/org.apache.sling.starter-11.jar
 
@@ -50,14 +52,17 @@ NOTE: The web framework used by this project is Apache Sling.  This was mainly t
        
        java -Xmx512m -jar org.apache.sling.starter-11.jar
        
-4. Open the installed server in your browser [http://localhost:8080](http://localhost:8080)
+4. Open the installed Sling server in your browser [http://localhost:8080](http://localhost:8080)
 
 ### Deploy the Application to Apache Sling
 
-To deploy the bundles to an already running sling instance on http://localhost:8080, run this command:
+1. To build and deploy the OSGi bundles to an already running sling instance on http://localhost:8080, run this command:
 
     mvn clean install sling:install
-    
+
+2. Once the bundles are installed then go to http://localhost:8080/romannumeral?query=5 to see the Roman Numeral web service.
+3. Go to this URL to see the Prometheus monitoring metrics web end-point: http://localhost:8080/metrics
+
 ## Build and Deploy on Docker / Kubernetes
 The application and its monitoring and observability services (Prometheus & Grafana) can be deployed to a Kubernetes cluster.  Follow the steps below to build and deploy to Kubernetes.
 
