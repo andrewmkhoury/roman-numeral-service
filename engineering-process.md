@@ -139,13 +139,13 @@ Integrate monitoring using prometheus
 
 2. Built the image and tested it running directly.
 
-	docker build -t prometheus-roman-services:1.0 .
-	docker run -d -p 9090:9090 --name prometheus-roman-services prometheus-roman-services
-	docker exec -it prometheus-roman-services /bin/sh
+		docker build -t prometheus-roman-services:1.0 .
+		docker run -d -p 9090:9090 --name prometheus-roman-services prometheus-roman-services
+		docker exec -it prometheus-roman-services /bin/sh
 
 3. Test the container and stop it in prep for kubernetes:
 
-	docker stop prometheus-roman-services; docker rm prometheus-roman-services
+		docker stop prometheus-roman-services; docker rm prometheus-roman-services
 
 ## Observability: Grafana
 Create a docker container for Grafana.
@@ -154,13 +154,13 @@ Create a docker container for Grafana.
 
 2. Built the image and tested it running directly.
 
-	docker build -t grafana-roman-services:1.0 ./grafana
-	docker run -d -p 9090:9090 --name grafana-roman-services grafana-roman-services
-	docker exec -it grafana-roman-services /bin/sh
+		docker build -t grafana-roman-services:1.0 ./grafana
+		docker run -d -p 9090:9090 --name grafana-roman-services grafana-roman-services
+		docker exec -it grafana-roman-services /bin/sh
 
 3. Test the container and stop it in prep for kubernetes:
 
-	docker stop grafana-roman-services; docker rm grafana-roman-services
+		docker stop grafana-roman-services; docker rm grafana-roman-services
 
 4. Followed this guide to create [grafana/provisioning](grafana/provisioning) directory structure: https://blog.56k.cloud/provisioning-grafana-datasources-and-dashboards-automagically/
 
@@ -168,23 +168,17 @@ Create a docker container for Grafana.
 
 # Kubernetes
 
-1. Installed Kubernetes to manage the docker network.
+1. Installed Kubernetes via docker desktop
 
-	brew install minikube
-	minikube start
-	kubectl cluster-info
-	kubectl get nodes
-	minikube dashboard #opens kubenetes UI in browser
-	
 2. Create a [yaml file](kube-deployment.yaml) to define a kubernetes deployment.  The file references the 3 docker images and exposes all the ports for Sling (port 8080), Prometheus (9090), and Grafana (3000).  It defines to have only one replica in the replica set as this is for testing and development of the monitoring.
 
 3. Apply the yaml to the kubernetes cluster:
 
-	kubectl apply -f kube-deployment.yaml
+		kubectl apply -f kube-deployment.yaml
 
 ## Monitoring Deployment Considerations
 
-In a real life scenario, the monitoring systems would be in a separate Kubernetes cluster.  However,
+In a real life scenario, the monitoring systems would be in a separate Kubernetes cluster.
 
 ## Monitoring the Kubernetes Cluster
 
