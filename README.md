@@ -58,7 +58,7 @@ NOTE: The web framework used by this project is Apache Sling.  This was mainly t
 
 1. To build and deploy the OSGi bundles to an already running sling instance on http://localhost:8080, run this command:
 
-    mvn clean install sling:install
+       mvn clean install sling:install
 
 2. Once the bundles are installed then go to http://localhost:8080/romannumeral?query=5 to see the Roman Numeral web service.
 3. Go to this URL to see the Prometheus monitoring metrics web end-point: http://localhost:8080/metrics
@@ -67,29 +67,31 @@ NOTE: The web framework used by this project is Apache Sling.  This was mainly t
 The application and its monitoring and observability services (Prometheus & Grafana) can be deployed to a Kubernetes cluster.  Follow the steps below to build and deploy to Kubernetes.
 
 1. Install Docker if it isn't already installed https://docs.docker.com/get-docker/
-2. Either enable single node Kubernetes via Docker Desktop (Settings UI) or install minikube https://minikube.sigs.k8s.io/docs/start/
-3. Clone this git repository:
-git clone https://github.com/andrewmkhoury/roman-numeral-service.git
+2. If you have another version of Kubernetes pre-installed (such as minikube) then stop those services so the docker desktop one can take over. 
+3. Enable single node Kubernetes via Docker Desktop (Settings UI): https://docs.docker.com/desktop/kubernetes/#enable-kubernetes
+4. Clone this git repository:
+     
+       git clone https://github.com/andrewmkhoury/roman-numeral-service.git
 	
-4. Download and install Maven 3.6.3 / JDK 11: https://maven.apache.org/install.html
+5. Download and install Maven 3.6.3 / JDK 11: https://maven.apache.org/install.html
 	* JDK 11: https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
 	* Maven: https://maven.apache.org/download.cgi
 
-5. Run the maven command from the root of the project directory to build all modules:
+6. Run the maven command from the root of the project directory to build all modules:
 	
 		mvn clean install
 	
-6. Build the 3 docker containers:
+7. Build the 3 docker containers (I purposely didn't publish them to docker hub (hence the detail in step 2 and 3 about using docker desktop's kubernetes):
 
 		docker build -t roman-numeral-service:1.0 .
 		docker build -t prometheus-roman-services:1.0 ./prometheus
 		docker build -t grafana-roman-services:1.0 ./grafana
 	
-7. Deploy the Docker images via Kubernetes:
+8. Deploy the Docker images via Kubernetes:
 
 		kubectl apply -f kube-deployment.yaml
 	
-8. Now you have 3 servers running and exposed on your machine:
+9. Now you have 3 servers running and exposed on your machine:
 	1. Apache Sling (Web): http://localhost:8080
 		* Roman Numeral Web Service: [http://localhost:8080/romannumeral?query=1](http://localhost:8080/romannumeral?query=1)
 		* Prometheus Metrics endpoint: [http://localhost:8080/metrics](http://localhost:8080/metrics)
@@ -101,7 +103,7 @@ git clone https://github.com/andrewmkhoury/roman-numeral-service.git
 		
 	NOTE: The Apache Sling container can take up to 2 minutes to start completely before the /romannumeral web service is accessible.
 
-9. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
+10. Now test the Web Service by visiting this URL in your browser: [http://localhost:8080/romannumeral?query=3](http://localhost:8080/romannumeral?query=3)
 
 
 ## Testing
